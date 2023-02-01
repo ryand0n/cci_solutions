@@ -54,10 +54,106 @@ class Stack:
         self.size -= 1
         return remove.value
 
-if __name__ == '__main__':
-    print(stack)
-    print(stack2)
+class SetofStacks(Stack):
+    def __init__(self, threshold=5):
+        super().__init__()
+        self.threshold = threshold
+        self.all_stacks = []
+        self.stack = []
 
-    for i in range(3):
-        print(stack.pop())
-        print(stack2.pop())
+    def push(self, value):
+        self.stack.append(value)
+        if len(self.stack) == self.threshold:
+            self.all_stacks.append(self.stack)
+            self.stack = []
+
+    def pop(self):
+        last_stack = self.all_stacks[-1]
+        return last_stack.pop(len(last_stack) - 1)
+
+    def popAt(self, index):
+        cnt = 0
+        for i in range(len(self.all_stacks)):
+            for j in range(len(self.all_stacks[i])):
+                if cnt == index:
+                    return self.all_stacks[i].pop(j)
+                cnt += 1
+
+class Stack():
+    def __init__(self):
+        self.stack = deque()
+        self.size = len(self.stack)
+
+    def push(self, value):
+        self.stack.append(value)
+
+    def pop(self):
+        self.stack.pop(len(self.stack) - 1)
+
+class MyQueue():
+    def __init__(self):
+        self.one = []
+        self.two = []
+
+    def push(self, value):
+        self.one.append(value)
+
+    def pop(self, value):
+        if not self.one:
+            while self.one:
+                self.two.append(self.one.pop())
+        return self.two.pop()
+
+class SortStack():
+    def __init__(self) -> None:
+        self.storage = [] # additional stack
+        self.smallest = 0
+
+    def push(self, value):
+        self.storage.append(value)
+        self.storage.sort(reverse=True)
+
+    def pop(self):
+        return self.storage.pop() 
+
+class AnimalShelter():
+    def __init__(self) -> None:
+        self.age = {}
+        self.storage = []
+
+    def update_age(self):
+        for i in range(len(self.storage)):
+            self.age[i] == len(self.storage) - i
+
+    def enqueue(self, value):
+        self.storage.append(value)
+
+    def dequeue(self):
+        return self.storage.pop(0)
+
+    def dequeueAnimal(self, pet):
+        for i in range(len(self.storage)):
+            if self.storage[i] == pet:
+                return self.storage.pop(i)
+
+queue = AnimalShelter()
+queue.enqueue('dog')
+queue.enqueue('cat')
+queue.enqueue('dog')
+queue.enqueue('dog')
+
+queue.dequeueAnimal('cat')
+
+print(queue.storage)
+
+
+
+# stack = SetofStacks()
+# for i in range(25):
+#     stack.push(i)
+
+# print(stack.all_stacks)
+# print(stack.pop())
+# print(stack.popAt(10))
+# print(stack.all_stacks)
+
